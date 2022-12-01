@@ -26,7 +26,6 @@ public static class MauiProgram
 #endif
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<App>();
-        // Note: end added part
 
         return builder.Build();
 	}
