@@ -1,0 +1,65 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"build",
+				"${workspaceFolder}/PDFImagesHelper/PDFImagesHelper.csproj",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "publish",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"publish",
+				"${workspaceFolder}/PDFImagesHelper/PDFImagesHelper.csproj",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "watch",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"watch",
+				"run",
+				"--project",
+				"${workspaceFolder}/PDFImagesHelper/PDFImagesHelper.csproj"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "run on mac",
+			"command": "dotnet",
+			"type": "process",
+			"dependsOn": ["build"],
+			"args": [
+				"build",
+				"-f:net7.0-maccatalyst",
+				"-t:Run"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "run on windows",
+			"command": "dotnet",
+			"type": "process",
+			"dependsOn": ["build"],
+			"args": [
+				"build",
+				"-f:net7.0-windows",
+				"-t:Run"
+			],
+			"problemMatcher": "$msCompile"
+		}
+	]
+}

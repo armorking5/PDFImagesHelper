@@ -29,8 +29,21 @@
 				Clicked="ChooseDirectory"
 				HorizontalOptions="Center" />
 
+			<Label
+				x:Name="FileLabel"
+				Text="Nessun file selezionato"
+				SemanticProperties.HeadingLevel="Level2"
+				FontSize="20"
+				HorizontalOptions="Center" />
+
+			<Button
+				x:Name="ChooseFileBtn"
+				Text="Scegli il pdf"
+				SemanticProperties.Hint="Scegli il pdf"
+				Clicked="ChooseFile"
+				HorizontalOptions="Center" />
+
 		</VerticalStackLayout>
 	</ScrollView>
 
 </ContentPage>
-
