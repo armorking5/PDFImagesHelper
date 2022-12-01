@@ -2,17 +2,21 @@
 
 public partial class MainPage : ContentPage
 {
-	int directory = 0;
+    private readonly IFolderPicker _folderPicker;
+    string _pickedFolder = "";
 
-	public MainPage()
+    public MainPage(IFolderPicker folderPicker)
 	{
 		InitializeComponent();
+		_folderPicker = folderPicker;
 	}
 
-	private void chooseDirectory(object sender, EventArgs e)
+	private async void ChooseDirectory(object sender, EventArgs e)
 	{
-		
-	}
+        var pickedFolder = await _folderPicker.PickFolder();
+
+        DirectoryLabel.Text = pickedFolder;
+
+        SemanticScreenReader.Announce(DirectoryLabel.Text);
+    }
 }
-
-

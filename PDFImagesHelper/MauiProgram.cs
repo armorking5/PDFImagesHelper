@@ -19,7 +19,16 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+#if WINDOWS
+        builder.Services.AddTransient<IFolderPicker, Platforms.Windows.MAUIFolderPicker>();
+#elif MACCATALYST
+        builder.Services.AddTransient<IFolderPicker, Platforms.MacCatalyst.MAUIFolderPicker>();
+#endif
+        builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<App>();
+        // Note: end added part
+
+        return builder.Build();
 	}
 }
 

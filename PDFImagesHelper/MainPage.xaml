@@ -9,23 +9,24 @@
 			Padding="30,0"
 			VerticalOptions="Center">
 
-			<Image
-				Source="dotnet_bot.png"
-				SemanticProperties.Description="Cute dot net bot waving hi to you!"
-				HeightRequest="200"
-				HorizontalOptions="Center" />
-
 			<Label
 				Text="Seleziona la cartella in cui salvare le immagini estratte"
 				SemanticProperties.HeadingLevel="Level1"
 				FontSize="32"
 				HorizontalOptions="Center" />
 
+			<Label
+				x:Name="DirectoryLabel"
+				Text="Nessuna cartella selezionata"
+				SemanticProperties.HeadingLevel="Level2"
+				FontSize="20"
+				HorizontalOptions="Center" />
+
 			<Button
-				x:Name="CounterBtn"
-				Text="Click me"
-				SemanticProperties.Hint="Counts the number of times you click"
-				Clicked="OnCounterClicked"
+				x:Name="ChooseDirectoryBtn"
+				Text="Scegli la cartella"
+				SemanticProperties.Hint="Scegli la cartella"
+				Clicked="ChooseDirectory"
 				HorizontalOptions="Center" />
 
 		</VerticalStackLayout>

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using WindowsFolderPicker = Windows.Storage.Pickers.FolderPicker;
 
 namespace PDFImagesHelper.Platforms.Windows
 {
-	public class FolderPicker : IFolderPicker
+	public class MAUIFolderPicker : IFolderPicker
 	{
 		public async Task<string> PickFolder()
 		{
-			var folderPicker = new WindowsFolderPicker();
+			var folderPicker = new FolderPicker();
 			// Make it work for Windows 10
 			folderPicker.FileTypeFilter.Add("*");
 			// Get the current window's HWND by passing in the Window object

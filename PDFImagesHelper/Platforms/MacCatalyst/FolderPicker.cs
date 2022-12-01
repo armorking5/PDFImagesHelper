@@ -1,25 +1,83 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Foundation;
+using UIKit;
 
-namespace PDFImagesHelper.Platforms.Windows
+namespace PDFImagesHelper.Platforms.MacCatalyst
 {
-	public class MAUIFolderPicker : IFolderPicker
+    public class MAUIFolderPicker : IFolderPicker
 	{
-		public async Task<string> PickFolder()
-		{
-			var folderPicker = new FolderPicker();
-			// Make it work for Windows 10
-			folderPicker.FileTypeFilter.Add("*");
-			// Get the current window's HWND by passing in the Window object
-			var hwnd = ((MauiWinUIWindow)App.Current.Windows[0].Handler.PlatformView).WindowHandle;
+        class PickerDelegate : UIDocumentPickerDelegate
+        {
+            public Action<NSUrl[]> PickHandler { get; set; }
 
-			// Associate the HWND with the file picker
-			WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
+            public override void WasCancelled(UIDocumentPickerViewController controller)
+                => PickHandler?.Invoke(null);
 
-			var result = await folderPicker.PickSingleFolderAsync();
+            public override void DidPickDocument(UIDocumentPickerViewController controller, NSUrl[] urls)
+                => PickHandler?.Invoke(urls);
 
-			return result.Path;
-		}
-	}
+            public override void DidPickDocument(UIDocumentPickerViewController controller, NSUrl url)
+                => PickHandler?.Invoke(new NSUrl[] { url });
+        }
+
+        static void GetFileResults(NSUrl[] urls, TaskCompletionSource<string> tcs)
+        {
+            try
+            {
+                tcs.TrySetResult(urls?[0]?.ToString() ?? "");
+            }
+            catch (Exception ex)
+            {
+                tcs.TrySetException(ex);
+            }
+        }
+
+        public async Task<string> PickFolder()
+        {
+            var allowedTypes = new string[]
+            {
+              "public.folder"
+            };
+
+            var picker = new UIDocumentPickerViewController(allowedTypes, UIDocumentPickerMode.Open);
+            var tcs = new TaskCompletionSource<string>();
+
+            picker.Delegate = new PickerDelegate
+            {
+                PickHandler = urls => GetFileResults(urls, tcs)
+            };
+
+            if (picker.PresentationController != null)
+            {
+                picker.PresentationController.Delegate =
+                    new UIPresentationControllerDelegate(() => GetFileResults(null, tcs));
+            }
+
+            var parentController = Platform.GetCurrentUIViewController();
+
+            parentController.PresentViewController(picker, true, null);
+
+            return await tcs.Task;
+        }
+
+        internal class UIPresentationControllerDelegate : UIAdaptivePresentationControllerDelegate
+        {
+            Action dismissHandler;
+
+            internal UIPresentationControllerDelegate(Action dismissHandler)
+                => this.dismissHandler = dismissHandler;
+
+            public override void DidDismiss(UIPresentationController presentationController)
+            {
+                dismissHandler?.Invoke();
+                dismissHandler = null;
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                dismissHandler?.Invoke();
+                base.Dispose(disposing);
+            }
+        }
+    }
 }
 
