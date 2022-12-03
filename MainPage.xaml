@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pdfimageshelper="clr-namespace:PDFImagesHelper" x:DataType="pdfimageshelper:MainPage"
+			 x:Class="PDFImagesHelper.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+			Spacing="25"
+			Padding="30,0"
+			VerticalOptions="Center">
+
+            <Label
+				Text="Seleziona la cartella in cui salvare le immagini estratte"
+				SemanticProperties.HeadingLevel="Level1"
+				FontSize="32"
+				HorizontalOptions="Center" />
+
+            <Label
+				x:Name="DirectoryLabel"
+				Text="Nessuna cartella selezionata"
+				SemanticProperties.HeadingLevel="Level2"
+				FontSize="20"
+				HorizontalOptions="Center" />
+
+            <Button
+				x:Name="ChooseDirectoryBtn"
+				Text="Scegli la cartella"
+				SemanticProperties.Hint="Scegli la cartella"
+				Clicked="ChooseDirectory"
+				HorizontalOptions="Center" />
+
+            <Label
+				x:Name="FileLabel"
+				Text="Nessun file selezionato"
+				SemanticProperties.HeadingLevel="Level2"
+				FontSize="20"
+				HorizontalOptions="Center" />
+
+            <Button
+				x:Name="ChooseFileBtn"
+				Text="Scegli il pdf"
+				SemanticProperties.Hint="Scegli il pdf"
+				Clicked="ChooseFile"
+				HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
